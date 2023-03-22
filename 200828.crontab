@@ -1,0 +1,35 @@
+# =========================== START =========================================
+# Initiation Date 	:2019.01.01
+# Modified Date 	:2019.06.11 
+# Modified By		:Kenan Bolat
+
+
+# Environment Variables =====================================================
+USER=hsaf
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+
+# Products ==================================================================
+20 21 * * * cd /HSAF && ./sca.py H10
+10 21 * * * cd /HSAF && ./sca.py H34
+32 02 * * * cd /HSAF && ./fsc.py H12
+15 02 * * * cd /HSAF && ./fsc.py H35
+01 02 * * * cd /HSAF && ./swe.py H13
+
+
+# Email Notification ========================================================
+0 06 * * * cd /HSAF/SRC && ./notification_email.py
+
+# GDS Product Generation  ===================================================
+*/30 * * * * cd /HSAF && ./gds.py H35
+
+# File and Folder compression and Check =====================================
+01 17 * * * cd /HSAF && ./filecheck.py
+01 18 * * * cd /HSAF && ./archive.py
+
+# =========================== END ===========================================
+
+
+
+# =========================== BAK ===========================================
+0 0 12,28 * * crontab -l > /HSAF/crontab/`date +\%y\%m\%d`.crontab.bak
+# =========================== BAK ===========================================
